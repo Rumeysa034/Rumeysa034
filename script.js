@@ -17,6 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const openBtn = document.getElementById('openModal');
     const closeBtn = document.getElementById('closeModal');
     const modal = document.getElementById('modal');
+    const urlParams = new URLSearchParams(window.location.search);
+    const cityFromUrl = urlParams.get('city');
+    if (cityFromUrl) {
+        cityInput.value = cityFromUrl;
+        getWeatherData(cityFromUrl);
+    }
 
     const apiKey = '4c2962a58e3bf2d4c7ac458234e17419';
     
@@ -249,7 +255,19 @@ if (temp > 30) {
     updateSuggestions();
 
     openBtn.addEventListener("click", () => {
+        const city = cityInput.value.trim();
+        if (!city) {
+            alert ("lütfen önve bir şehir ismi girin");
+            return;
+        }
         modal.classList.add("open");
+        const qrVerisi = `https://rumeysa034.github.io/Rumeysa034/?city=${encodeURIComponent(city)}`;
+
+    qrKodGoster(qrVerisi);
+    console.log("qr kod içeriği:", qrVerisi);
+    // QR kod okutulduğunda yönlendirme için örnek:
+    
+});
     });
 
     closeBtn.addEventListener("click", () => {
@@ -259,6 +277,7 @@ if (temp > 30) {
     function qrKodGoster(veri) {
     const qrDiv = document.getElementById("qrcode");
     qrDiv.innerHTML = ""; // Önceki QR kodu sil
+    qrDiv.style = "";
     new QRCode(qrDiv, {
         text: veri,
         width: 200,
@@ -268,16 +287,5 @@ if (temp > 30) {
         correctLevel : QRCode.CorrectLevel.H
     });
 }
-
-openBtn.addEventListener("click", () => {
-    modal.classList.add("open");
-
-    // QR kodu üret (örnek link)
-    qrKodGoster("https://seninsite.com/civciv?sehir=Ankara");
-});
-
-closeBtn.addEventListener("click", () => {
-    modal.classList.remove("open");
-});
 
  });
