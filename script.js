@@ -281,5 +281,3 @@ closeBtn.addEventListener("click", () => {
 });
 
  });
-});
-});
