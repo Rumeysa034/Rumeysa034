@@ -7,10 +7,7 @@
     <link rel="stylesheet" href="style.css"> 
     
 
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
-     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
- <script src="script.js" defer></script> 
 </head>
 <body>
 
@@ -26,12 +23,11 @@
 <button id="openModal">📷</button>
 
     <div class="modal" id="modal">
-      <div class="modal-inner">
-            <h2>hava durumu için kodu okutun</h2>
-            <canvas id="qrcodeCanvas"></canvas>
+        <div class="modal-inner">
+            <h2>Hava durumu web uygulaması için QR kodu okutun</h2>
             <div id="qrcode" style="text-align: center;"></div>
             <button id="closeModal">Close</button>
-        </div>  
+        </div>
     </div>
          
          <button id="getLocationBtn">Konumumu Kullan</button>     
@@ -58,64 +54,7 @@
             <h3 class="condition-txt regular-txt">Parçalı bulutlu</h3>
 
          </div>
-
      </div>
-
-
-
-
-       <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-    <script>
-        // Modal ve Butonlar
-        const openBtn = document.getElementById("openModal");
-        const closeBtn = document.getElementById("closeModal");
-        const modal = document.getElementById("modal");
-
-        // QR Kodunu Gösterme Fonksiyonu
-        function qrKodGoster(veri) {
-            // QR objesi zaten varsa temizle
-            if (window.qrKodObjesi) {
-                window.qrKodObjesi.clear(); // Öncekini sil
-            }
-
-            // Yeni QR oluştur
-            window.qrKodObjesi = new QRCode(document.getElementById("qrcode"), {
-                text: veri,
-                width: 128,
-                height: 128,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: 'L', // Hata düzeyini burada 'L' olarak yazdık
-            });
-        }
-
-        // Modal'ı açma
-        openBtn.addEventListener("click", () => {
-            modal.classList.add("open");
-            setTimeout(() => {
-                // Verileri al
-                const currentCity = document.querySelector('.country-txt').textContent.trim();
-                const currentTemp = document.querySelector('.temp-txt').textContent.trim();
-                const currentCondition = document.querySelector('.condition-txt').textContent.trim();
-
-                const weatherData = {
-                    city: currentCity,
-                    temp: currentTemp,
-                    condition: currentCondition
-                };
-
-                const jsonData = JSON.stringify(weatherData); // Veriyi JSON'a çevir
-                console.log("QR kod içeriği:", jsonData); // Konsolda veri
-                qrKodGoster(jsonData); // QR kodunu oluştur
-            }, 100);
-        });
-
-        // Modal'ı kapama
-        closeBtn.addEventListener("click", () => {
-            modal.classList.remove("open");
-            document.getElementById("qrcode").innerHTML = ""; // QR kodu temizle
-        });
-    </script>
      
      <div class="weather-conditions-container">  
         <div class="conditions-item">
@@ -183,5 +122,7 @@
 </div>
 
 </main>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+ <script src="script.js" defer></script> 
 </body>
 </html>
