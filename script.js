@@ -1,5 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
-   
+    const urlParams = new URLSearchParams(window.location.search);
+    const qrData = urlParams.get('data');
+
+    if (qrData){
+        try{
+            const weatherData = JSON.parse(qrData);
+            countryTxt.textContent = weatherData.city;
+            tempTxt.textContent = weatherData.temp;
+            conditionTxt.textContent = weatherData.condition;
+            weatherInfoSection.style.display = 'flex';
+        } catch (e){
+            console.error("Qr veri okuma hatası:", e);
+        }
+    }
     const cityInput = document.querySelector('.city-input');
     const searchBtn = document.querySelector('.search-btn');
     const weatherInfoSection = document.querySelector('.weather-info');
@@ -69,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
     async function getFetchData(endPoint, city) { 
-        const apiUrl = https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apiKey}&units=metric&lang=tr;
+        const apiUrl = `https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apiKey}&units=metric&lang=tr`;
         const response = await fetch(apiUrl);
         if (!response.ok) throw new Error("şehir bulunamadı");
         return response.json();
@@ -116,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
             countryTxt.textContent = country;
             tempTxt.textContent = Math.round(temp) + '°C';
             conditionTxt.textContent = description;
-            weatherSummaryImg.src = ./bilesenler/${getWeatherIcon(id)};
+            weatherSummaryImg.src = `./bilesenler/${getWeatherIcon(id)}`;
             nemValueTxt.textContent = humidity + '%';
             rüzgarValueTxt.textContent = speed + ' M/s';
             currentDateTxt.textContent = getCurrentDate();
@@ -196,7 +209,7 @@ if (temp > 30) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
 
-    fetch(https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude})
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
         .then(response => response.json())
         .then(data => {
             const city = data.address.city || data.address.town || data.address.village;
@@ -256,28 +269,58 @@ if (temp > 30) {
         modal.classList.remove("open");
     });
 
-    function qrKodGoster(veri) {
-    const qrDiv = document.getElementById("qrcode");
-    qrDiv.innerHTML = ""; // Önceki QR kodu sil
-    new QRCode(qrDiv, {
-        text: veri,
-        width: 200,
-        height: 200,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
-    });
+function qrKodGoster(veri) {
+  // QR objesi zaten varsa temizle
+  if (window.qrKodObjesi) {
+    window.qrKodObjesi.clear(); // Öncekini sil
+  }
+
+  // Yeni QR oluştur
+  window.qrKodObjesi = new QRCode(document.getElementById("qrcode"), {
+    text: veri,
+    width: 128,
+    height: 128,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: 'L', // Hata düzeyini burada 'L' olarak yazdık
+  });
 }
+
 
 openBtn.addEventListener("click", () => {
     modal.classList.add("open");
+    setTimeout(() => {
+    const currentCity = document.querySelector('.country-txt').textContent.trim();
+    const currentTemp = document.querySelector('.temp-txt').textContent.trim();
+    const currentCondition = document.querySelector('.condition-txt').textContent.trim();
 
-    // QR kodu üret (örnek link)
-    qrKodGoster("https://seninsite.com/civciv?sehir=Ankara");
-});
+    const weatherData = {
+        city: currentCity,
+        temp: currentTemp,
+        condition: currentCondition
+    };
+    
+    const jsonData = JSON.stringify(weatherData);
+    console.log("QR kod içeriği:", jsonData);
+    qrKodGoster(jsonData);
+}, 100);
 
 closeBtn.addEventListener("click", () => {
     modal.classList.remove("open");
+    document.getElementById("qrcode").innerHTML = ""; // QR kodu temizle
 });
 
- });
+// Test QR kodunu kaldırabilirsiniz veya şöyle değiştirebilirsiniz:
+document.addEventListener("DOMContentLoaded", function() {
+    // Sadece demo amaçlı, gerçek veri yoksa göster
+    if(!document.querySelector('.country-txt').textContent.trim()) {
+        const demoData = JSON.stringify({
+            city: "Şehir ara...",
+            temp: "0°C",
+            condition: "Durum yükleniyor"
+        });
+        qrKodGoster(demoData);
+    }
+});
+});
+});
