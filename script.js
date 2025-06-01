@@ -1,18 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const qrData = urlParams.get('data');
-
-    if (qrData){
-        try{
-            const weatherData = JSON.parse(qrData);
-            countryTxt.textContent = weatherData.city;
-            tempTxt.textContent = weatherData.temp;
-            conditionTxt.textContent = weatherData.condition;
-            weatherInfoSection.style.display = 'flex';
-        } catch (e){
-            console.error("Qr veri okuma hatası:", e);
-        }
-    }
+   
     const cityInput = document.querySelector('.city-input');
     const searchBtn = document.querySelector('.search-btn');
     const weatherInfoSection = document.querySelector('.weather-info');
@@ -269,58 +256,30 @@ if (temp > 30) {
         modal.classList.remove("open");
     });
 
-function qrKodGoster(veri) {
-  // QR objesi zaten varsa temizle
-  if (window.qrKodObjesi) {
-    window.qrKodObjesi.clear(); // Öncekini sil
-  }
-
-  // Yeni QR oluştur
-  window.qrKodObjesi = new QRCode(document.getElementById("qrcode"), {
-    text: veri,
-    width: 128,
-    height: 128,
-    colorDark: "#000000",
-    colorLight: "#ffffff",
-    correctLevel: 'L', // Hata düzeyini burada 'L' olarak yazdık
-  });
+    function qrKodGoster(veri) {
+    const qrDiv = document.getElementById("qrcode");
+    qrDiv.innerHTML = ""; // Önceki QR kodu sil
+    new QRCode(qrDiv, {
+        text: veri,
+        width: 200,
+        height: 200,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
 }
-
 
 openBtn.addEventListener("click", () => {
     modal.classList.add("open");
-    setTimeout(() => {
-    const currentCity = document.querySelector('.country-txt').textContent.trim();
-    const currentTemp = document.querySelector('.temp-txt').textContent.trim();
-    const currentCondition = document.querySelector('.condition-txt').textContent.trim();
 
-    const weatherData = {
-        city: currentCity,
-        temp: currentTemp,
-        condition: currentCondition
-    };
-    
-    const jsonData = JSON.stringify(weatherData);
-    console.log("QR kod içeriği:", jsonData);
-    qrKodGoster(jsonData);
-}, 100);
+    // QR kodu üret (örnek link)
+    qrKodGoster("https://rumeysa034.github.io/Rumeysa034/");
+});
 
 closeBtn.addEventListener("click", () => {
     modal.classList.remove("open");
-    document.getElementById("qrcode").innerHTML = ""; // QR kodu temizle
 });
 
-// Test QR kodunu kaldırabilirsiniz veya şöyle değiştirebilirsiniz:
-document.addEventListener("DOMContentLoaded", function() {
-    // Sadece demo amaçlı, gerçek veri yoksa göster
-    if(!document.querySelector('.country-txt').textContent.trim()) {
-        const demoData = JSON.stringify({
-            city: "Şehir ara...",
-            temp: "0°C",
-            condition: "Durum yükleniyor"
-        });
-        qrKodGoster(demoData);
-    }
-});
+ });
 });
 });
