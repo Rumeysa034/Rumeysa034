@@ -228,22 +228,16 @@ body::before {
     align-items: center;
     justify-content: center;
 }
-
 .modal.open {
    opacity: 1;
    z-index: 999; 
 }
 
 .modal-inner {
-    background-color: #fff;
+    background-color: rgba(47, 72, 124, 0.9);
     border-radius: 5px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
     padding: 15px 25px;
     text-align: center;
     width: 380px;
 }
-
-.modal-inner h2 {
-    margin: 0;
-}
-
