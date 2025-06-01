@@ -124,6 +124,29 @@
 </main>
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script src="script.js" defer></script> 
+
+    <script>
+    // URL'den şehir parametresini al
+    const urlParams = new URLSearchParams(window.location.search);
+    const city = urlParams.get('city');
+    if(city) {
+        localStorage.setItem('lastCity', city); // Şehri sakla
+    }
+    
+    // Sayfa yüklendiğinde
+    window.onload = function() {
+        const savedCity = localStorage.getItem('lastCity');
+        if(savedCity) {
+            // Şehir varsa hava durumunu yükle
+            document.querySelector('.city-input').value = savedCity;
+            // getWeatherData fonksiyonunuzu burada çağırın
+            if(typeof getWeatherData === 'function') {
+                getWeatherData(savedCity);
+            }
+        }
+    };
+</script>
+    
 </body>
 
 </body>
