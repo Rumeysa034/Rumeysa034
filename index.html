@@ -125,26 +125,34 @@
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script src="script.js" defer></script> 
 
-    <script>
-    // URL'den şehir parametresini al
+   <script>
+  window.onload = function () {
     const urlParams = new URLSearchParams(window.location.search);
     const city = urlParams.get('city');
-    if(city) {
-        localStorage.setItem('lastCity', city); // Şehri sakla
+
+    if (city) {
+      document.getElementById('cityInput').value = city;
+      getWeather(city); // Hava durumunu getir
     }
-    
-    // Sayfa yüklendiğinde
-    window.onload = function() {
-        const savedCity = localStorage.getItem('lastCity');
-        if(savedCity) {
-            // Şehir varsa hava durumunu yükle
-            document.querySelector('.city-input').value = savedCity;
-            // getWeatherData fonksiyonunuzu burada çağırın
-            if(typeof getWeatherData === 'function') {
-                getWeatherData(savedCity);
-            }
-        }
-    };
+  };
+
+  function getWeather(cityName) {
+    // Burada şehir adı ile hava durumu verisini al ve sayfaya yaz
+    // Örneğin:
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=API_KEY&units=metric&lang=tr`)
+      .then(response => response.json())
+      .then(data => {
+        // Veriyi sayfada göster
+        document.getElementById("cityNameDisplay").innerText = data.name;
+        document.getElementById("temperature").innerText = `${data.main.temp} °C`;
+        document.getElementById("humidity").innerText = `${data.main.humidity} %`;
+        document.getElementById("wind").innerText = `${data.wind.speed} m/s`;
+        // gibi...
+      })
+      .catch(error => {
+        console.error('Hava durumu alınırken hata oluştu:', error);
+      });
+  }
 </script>
     
 </body>
