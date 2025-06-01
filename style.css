@@ -213,6 +213,21 @@ body::before {
     width: fit-content; 
 }
 
+#openModal {
+    position: fixed;
+    left: 20px;
+    bottom: 10px;
+    z-index: 1000;
+    background:rgb(47, 72, 124);
+    color: white;
+    border: none;
+    border-radius: 20%;
+    cursor: pointer;
+}
+#openModal:hover {
+    background-color: #3e78dc;
+}
+
 .modal {
     background-color: rgba(0, 0, 0, 0.3);
     opacity: 0;
