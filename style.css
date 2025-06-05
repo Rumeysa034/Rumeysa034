@@ -30,29 +30,38 @@ body::before {
 }
 
 .main-container {  
+    position: relative; 
     width: 300px;
     height: 496px;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.15), rgb(65, 118, 197)); 
     border-radius: 12px; 
     backdrop-filter: blur(100px); 
     padding: 20px; 
-    position: relative; 
 }
 
 .input-container { 
     position: relative;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.search-wrapper {
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
 }
 
 .city-input {
-    width: 100%; 
+    width: 70%; 
     padding: 10px 45px 10px 16px; 
     border-radius: 99px; 
     border: 3px solid transparent; 
     background: rgba(0, 0, 0, 0.15); 
     outline: none; 
     font-weight: 500;
-}
+} 
 
 .city-input:focus {
     border: 3px solid rgba(0, 0, 0, 0.15);  
@@ -70,6 +79,15 @@ body::before {
     background: none; 
     border: none;
     cursor: pointer;
+}
+
+#favoriteStarBtn {
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 8px;
+    order: 2;
 }
 
 .history-dropdown {
@@ -101,6 +119,8 @@ body::before {
     display: flex;
     flex-direction: column;
     gap: 20px; 
+    position: relative; /* Favori butonu için referans noktası */
+    padding-bottom: 40px; /* Favori butonu için alt boşluk */
 }
 
 .location-date-container { 
@@ -193,6 +213,8 @@ body::before {
     padding: 5px 40px;
     font-size: 10px;
     border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 #getLocationBtn:hover {
@@ -224,6 +246,7 @@ body::before {
     border-radius: 20%;
     cursor: pointer;
 }
+
 #openModal:hover {
     background-color: #3e78dc;
 }
@@ -238,11 +261,11 @@ body::before {
     bottom: 0;
     transition: all 0.3s ease-in-out;
     z-index: -1;
-
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .modal.open {
    opacity: 1;
    z-index: 999; 
@@ -255,4 +278,78 @@ body::before {
     padding: 15px 25px;
     text-align: center;
     width: 380px;
+}
+
+#favButton {
+    position: fixed; 
+    bottom: 10px; 
+    right: 20px; 
+    font-size: 28px; 
+    cursor: pointer; 
+    z-index: 1000; 
+    color: red; 
+    display: block !important; 
+    background: rgba(255,255,255,0.2);
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%; 
+    text-align: center; 
+    line-height: 40px;
+}
+
+#favBox {
+    position: fixed; 
+    bottom: 72px; 
+    right: 20px; 
+    background: rgba(47, 72, 124, 0.98); 
+    border: 1px solid rgba(255,255,255,0.15); 
+    border-radius: 12px; 
+    padding: 12px; 
+    display: none; 
+    max-height: 250px; 
+    overflow-y: auto; 
+    z-index: 999; 
+    width: 200px; 
+    backdrop-filter: blur(12px); 
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+.search-star {
+    margin-left: 10px; 
+    cursor: pointer; 
+    display: none; 
+    color: gold; 
+    font-size: 20px; 
+    vertical-align: middle;
+}
+
+.custom-notification {
+    position: fixed; 
+    top: 20px; 
+    right: 20px; 
+    background: #4CAF50; 
+    color: white; 
+    padding: 10px 20px; 
+    z-index: 1000; 
+    border-radius: 5px; 
+    animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+}
+
+.favorite-item {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:8px 0;
+    border-bottom:1px solid rgba(26, 32, 25, 0.99)
+}
+
+.favorite-city {
+    cursor:pointer;
+    flex-grow:1; 
+}
+
+.delete-button {
+    cursor:pointer;
+    margin-left:10px;
+    color:#ff6b6b;
 }
