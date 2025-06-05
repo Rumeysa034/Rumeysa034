@@ -12,15 +12,17 @@
 <body>
 
     <main class="main-container"> 
-        <header class="input-container">
+<header class="input-container">
+    <div class="search-wrapper">
         <input class="city-input" placeholder="Search City" type="text">  
         <button type="button" class="search-btn">  
-    <span class="material-symbols-outlined">     
-        search
-    </span>
-</button>
+            <span class="material-symbols-outlined">search</span>
+        </button>
+    </div>
 
-<button id="openModal">📷</button>
+<button id="openModal">📷
+    <h5>QR kod</h5>
+</button>
 
     <div class="modal" id="modal">
         <div class="modal-inner">
@@ -31,8 +33,12 @@
     </div>
          
          <button id="getLocationBtn">Konumumu Kullan</button>     
-         <div id ="weatherResult"></div> 
-         <div class="suggestion-box"></div> 
+          <div class="favorites-container">
+    <div id="favoritesList" style="display: none; position: fixed; bottom: 60px; right: 20px ; background-color: rgb(28, 161, 59); padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
+        <h3 style="margin: 0 0 10px 0;">favori şehirler</h3>
+        <ul id="favoritesUl" style="list-style: none; padding: 0; margin: 0;"></ul>
+    </div>
+ </div>
          
     
     </header>
@@ -41,8 +47,8 @@
         <div class="location-date-container">     
             <div class="location">
                <img src="bilesenler/location.svg">
-            
-                <h4 class="country-txt">İstanbul</h4>
+               <h4 class="country-txt">İstanbul</h4>
+               
         </div>
         <h5 class="current-date-txt regular-txt">Perşembe, 24 Nisan</h5>
      </div>
@@ -124,5 +130,6 @@
 </main>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
  <script src="script.js" defer></script> 
+
 </body>
 </html>
